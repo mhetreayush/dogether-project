@@ -37,7 +37,6 @@ const Index = () => {
         toast.success("OTP Sent");
         setOtpSentStatus("success");
         setShowOtp(true);
-        console.log(confirmationResult);
       })
       .catch((error) => {
         console.log(error);
@@ -70,7 +69,6 @@ const Index = () => {
       .then((result: any) => {
         const user = result.user;
         localStorage.setItem("user", JSON.stringify(user));
-        console.log(user);
         toast.success("User Signed In");
         router.push("/home");
       })

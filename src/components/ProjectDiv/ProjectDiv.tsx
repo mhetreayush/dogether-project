@@ -29,7 +29,6 @@ const ProjectDiv = ({
   const [isEnrolled, setIsEnrolled] = useState(false);
   const getData = async () => {
     const user = JSON.parse(localStorage?.getItem("user") ?? "{}");
-    console.log(user.uid);
     const userRef = doc(db, "userProfiles", user.uid);
     const docSnap = await getDoc(userRef);
     return docSnap.data();

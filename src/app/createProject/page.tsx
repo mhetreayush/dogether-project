@@ -31,15 +31,6 @@ const CreateProject = () => {
       tags,
     } = Object.fromEntries(data.entries());
 
-    // const name = data.get("name");
-    // const expectedPayment = data.get("expectedPayment");
-    // const duration = data.get("duration");
-    // const finalShipment = data.get("finalShipment");
-    // const desc = data.get("desc");
-    // const instructions = data.get("instructions");
-    // const materials = data.get("materials");
-    // const otherDetails = data.get("otherDetails");
-    // const tags = data.get("tags");
     const tagsArray = tags?.toString()?.split(",");
     const userData = await getData();
 

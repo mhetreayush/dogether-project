@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { db } from "@/lib/firebase";
 import { CreateProfileModal } from "@/components/CreateProfileModal";
+import Image from "next/image";
 const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
@@ -35,13 +36,12 @@ const Navbar = () => {
     <>
       <div className="py-2 px-2 md:px-6 bg-white/30 backdrop-blur shadow sticky top-0 z-50 flex justify-between items-center">
         <Link href="/home">
-          {/* <Image src="/assets/logo.svg" alt="logo" width={250} height={250} /> */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/assets/logo.svg"
-            alt="logo"
-            className="w-[150px] md:w-[200px]"
-          />
+          <div className="block md:hidden">
+            <Image src="/assets/logo.svg" alt="logo" width={150} height={150} />
+          </div>
+          <div className="hidden md:block">
+            <Image src="/assets/logo.svg" alt="logo" width={200} height={200} />
+          </div>
         </Link>
         <div className="flex gap-x-3">
           <button onClick={handleStartNow} className="actionButton rounded-md">

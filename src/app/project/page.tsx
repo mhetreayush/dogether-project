@@ -24,6 +24,25 @@ import { GroupChats } from "@/components/GroupChat";
 import { Project } from "@/types/project";
 
 type ProjectId = Project["projectId"];
+const Divider = () => {
+  return <hr className="border-b border-gray-300 my-2" />;
+};
+const SemiSection = ({
+  title,
+  children,
+  className,
+}: {
+  title: string;
+  children?: JSX.Element | string;
+  className?: string;
+}) => {
+  return (
+    <div className={`flex flex-col gap-y-2 ${className}`}>
+      <h1 className="text-lg font-semibold">{title}</h1>
+      {children && <p className="text-sm font-extralight">{children}</p>}
+    </div>
+  );
+};
 
 const ProjectsPage = () => {
   const router = useRouter();
@@ -43,26 +62,6 @@ const ProjectsPage = () => {
   useEffect(() => {
     projId && getProject(projId as ProjectId);
   }, [projId]);
-
-  const Divider = () => {
-    return <hr className="border-b border-gray-300 my-2" />;
-  };
-  const SemiSection = ({
-    title,
-    children,
-    className,
-  }: {
-    title: string;
-    children?: JSX.Element | string;
-    className?: string;
-  }) => {
-    return (
-      <div className={`flex flex-col gap-y-2 ${className}`}>
-        <h1 className="text-lg font-semibold">{title}</h1>
-        {children && <p className="text-sm font-extralight">{children}</p>}
-      </div>
-    );
-  };
 
   const handleStartProject = async () => {
     const uid = JSON.parse(localStorage?.getItem("user") ?? "{}").uid;
