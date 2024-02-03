@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Work+Sans&display=swap');
+
+body {
+    background-color: #F9F8F6;
+}
+
+html {
+    font-family: 'Work Sans', sans-serif;
+}
+
+html h1 {
+    font-family: 'Bebas Neue', sans-serif;
+}
+
+html p {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.modalStyle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 2px solid #000;
+    box-shadow: 24;
+    width: 50vw;
+    height: 50vh;
+}
+
+@media screen and (max-width: 768px) {
+    .modalStyle {
+        width: 90vw;
+        height: 90vh;
+    }
+}
+    
+
+@layer components {
+    .textHeadings {
+        @apply text-2xl font-semibold text-textHeading
+    }
+
+    .actionButton {
+        @apply py-2 px-6 rounded-md bg-primaryOrange text-white
+    }
+
+    .tagClass {
+        @apply text-xs font-bold border border-primaryOrange text-primaryOrange p-2 rounded-md flex items-center
+    }
+}

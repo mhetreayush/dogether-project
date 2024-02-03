@@ -1,0 +1,1 @@
+export { GroupChats } from "./GroupChats";
