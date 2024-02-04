@@ -4,19 +4,19 @@ import { PageWrapper } from "@/components/PageWrapper";
 import { TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import { db } from "@/lib/firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
+import { useUser } from "@/store/useUser";
+import { useGetUserData } from "@/hooks/useGetUserData";
 const CreateProject = () => {
   const router = useRouter();
-  const getData = async () => {
-    const user = JSON.parse(localStorage?.getItem("user") ?? "{}");
-    const userRef = doc(db, "userProfiles", user.uid);
-    const docSnap = await getDoc(userRef);
-    return docSnap.data();
-  };
+  const { user } = useUser();
+
+  const { getUserData } = useGetUserData();
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    const user = JSON.parse(localStorage?.getItem("user") ?? "{}");
+    if (!user) return;
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const {
@@ -32,10 +32,10 @@ const CreateProject = () => {
     } = Object.fromEntries(data.entries());
 
     const tagsArray = tags?.toString()?.split(",");
-    const userData = await getData();
 
     const projectId = Math.floor(Math.random() * 1000000000).toString();
     try {
+      const userData = await getUserData();
       await setDoc(doc(db, "projects", projectId), {
         name,
         projectId,

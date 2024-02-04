@@ -1,3 +1,4 @@
+import { useUser } from "@/store/useUser";
 import { Backdrop, Box, Fade, Modal } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -11,6 +12,7 @@ const RecruiterModal = ({
 }) => {
   const [redirectingIn, setRedirectingIn] = useState(10);
   const router = useRouter();
+  const { setUser } = useUser();
   useEffect(() => {
     if (!openModal) {
       setRedirectingIn(10);
@@ -21,18 +23,19 @@ const RecruiterModal = ({
     }, 1000);
     return () => clearInterval(interval);
   }, [openModal]);
+
   useEffect(() => {
     if (redirectingIn <= 0) {
       setOpenModal(false);
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          uid: "recruiter",
-        })
-      );
+      setUser({
+        uid: "recruiter",
+        name: "recruiter",
+        phoneNumber: "+91 1234567890",
+      });
+
       router.push("/home");
     }
-  }, [redirectingIn, router, setOpenModal]);
+  }, [router, openModal, redirectingIn, setOpenModal, setUser]);
 
   return (
     <div>

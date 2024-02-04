@@ -8,6 +8,7 @@ import { db } from "@/lib/firebase";
 import { setDoc, doc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { User } from "@/types/user";
+import { useUser } from "@/store/useUser";
 
 const CreateProfileModal = ({
   isCreateProfileModalOpen,
@@ -20,18 +21,15 @@ const CreateProfileModal = ({
   projectId?: string;
   createProject?: boolean;
 }) => {
-  const [user, setUser] = useState<null | User>(null);
   const router = useRouter();
-  useEffect(() => {
-    const user = JSON.parse(localStorage?.getItem("user") ?? "{}");
-    setUser(user);
-  }, []);
+  const { user } = useUser();
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    if (!user) return;
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const name = data.get("fullName");
-    const uid = user?.uid;
-    const phoneNumber = user?.phoneNumber;
+    const uid = user.uid;
+    const phoneNumber = user.phoneNumber;
     const addressLine1 = data.get("addressLine1");
     const addressLine2 = data.get("addressLine2");
     try {

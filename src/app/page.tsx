@@ -12,6 +12,7 @@ import { HiArrowRight } from "react-icons/hi";
 import { OTP } from "@/components/OTP";
 import { RecruiterModal } from "@/components/RecruiterModal";
 import { BsInfoCircleFill } from "react-icons/bs";
+import { useUser } from "@/store/useUser";
 const otpStatus = {
   pending: <HiArrowRight />,
   inProgress: <AiOutlineLoading3Quarters className="animate-spin" />,
@@ -27,6 +28,7 @@ const Index = () => {
   const [otpValue, setOtpValue] = useState("");
   const [openRecruiterModal, setOpenRecruiterModal] = useState(false);
   const phoneRef = useRef<null | HTMLInputElement>(null);
+  const { setUser } = useUser();
   const onSignInSubmit = useCallback(() => {
     const appVerifier = window.recaptchaVerifier;
     const finalPhoneNumber = "+91" + phoneNumber;
@@ -68,7 +70,8 @@ const Index = () => {
       .confirm(otpValue)
       .then((result: any) => {
         const user = result.user;
-        localStorage.setItem("user", JSON.stringify(user));
+        setUser(user);
+
         toast.success("User Signed In");
         router.push("/home");
       })

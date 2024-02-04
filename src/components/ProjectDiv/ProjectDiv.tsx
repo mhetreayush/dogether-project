@@ -12,6 +12,8 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { User } from "@/types/user";
 import { Project } from "@/types/project";
+import { useGetUserData } from "@/hooks/useGetUserData";
+import { useUser } from "@/store/useUser";
 const ProjectDiv = ({
   createdBy,
   members,
@@ -27,14 +29,10 @@ const ProjectDiv = ({
 }) => {
   const router = useRouter();
   const [isEnrolled, setIsEnrolled] = useState(false);
-  const getData = async () => {
-    const user = JSON.parse(localStorage?.getItem("user") ?? "{}");
-    const userRef = doc(db, "userProfiles", user.uid);
-    const docSnap = await getDoc(userRef);
-    return docSnap.data();
-  };
+  const { getUserData } = useGetUserData();
+  const { user } = useUser();
   useEffect(() => {
-    const user = JSON.parse(localStorage?.getItem("user") ?? "{}");
+    if (!user) return;
     const checkEnrolled = async () => {
       const projectRef = collection(db, "projects");
 
@@ -50,10 +48,10 @@ const ProjectDiv = ({
       }
     };
     projectId && checkEnrolled();
-  }, [projectId]);
+  }, [projectId, user]);
   const handleStartNow = async () => {
     setSelectedProjectID?.(projectId ?? "");
-    const res = await getData();
+    const res = await getUserData();
 
     if (!res) {
       setCreateProfileModalOpen?.(true);

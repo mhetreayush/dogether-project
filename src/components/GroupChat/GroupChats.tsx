@@ -4,6 +4,7 @@ import { RiSendPlaneFill } from "react-icons/ri";
 import { db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { ChatMessage } from "@/types/chats";
+import { useUser } from "@/store/useUser";
 const realtimeDB = getDatabase();
 
 const GroupChats = ({ projectId }: { projectId: string }) => {
@@ -11,16 +12,10 @@ const GroupChats = ({ projectId }: { projectId: string }) => {
   const [isChatLoaded, setIsChatLoaded] = useState(false);
   const [newMsg, setNewMsg] = useState("");
   const [projectName, setProjectName] = useState(null);
-  const [uid, setUid] = useState(null);
-
-  useEffect(() => {
-    const user = JSON.parse(localStorage?.getItem("user") ?? "{}");
-    if (user) {
-      setUid(user.uid);
-    }
-  }, []);
+  const { user: localUser } = useUser();
+  const uid = localUser?.uid;
   const addMsg = async () => {
-    const uid = JSON.parse(localStorage?.getItem("user") ?? "{}").uid;
+    if (!uid) return;
 
     const user = await getDoc(doc(db, "userProfiles", uid));
     const userName: string = user?.data()?.name;

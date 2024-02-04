@@ -6,6 +6,7 @@ import { CgProfile } from "react-icons/cg";
 import { db } from "@/lib/firebase";
 import { CreateProfileModal } from "@/components/CreateProfileModal";
 import Image from "next/image";
+import { useGetUserData } from "@/hooks/useGetUserData";
 const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
@@ -16,15 +17,10 @@ const Navbar = () => {
     setCurrentPath(pathname);
   }, [pathname]);
 
-  const getData = async () => {
-    const user = JSON.parse(localStorage?.getItem("user") ?? "{}");
-    const userRef = doc(db, "userProfiles", user.uid);
-    const docSnap = await getDoc(userRef);
-    return docSnap.data();
-  };
+  const { getUserData } = useGetUserData();
 
   const handleStartNow = async () => {
-    const res = await getData();
+    const res = await getUserData();
 
     if (!res) {
       setIsCreateProfileModalOpen(true);

@@ -22,6 +22,7 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import { GroupChats } from "@/components/GroupChat";
 import { Project } from "@/types/project";
+import { useUser } from "@/store/useUser";
 
 type ProjectId = Project["projectId"];
 const Divider = () => {
@@ -52,6 +53,8 @@ const ProjectsPage = () => {
   const isEnrolled = searchParams.get("isEnrolled");
   const [showConfirm, setShowConfirm] = useState(false);
   const [project, setProject] = useState<Project | null>(null);
+
+  const { user: localUser } = useUser();
   const getProject = async (projId: ProjectId) => {
     const projectRef = collection(db, "projects");
     const q = query(projectRef, where("projectId", "==", projId));
@@ -64,8 +67,8 @@ const ProjectsPage = () => {
   }, [projId]);
 
   const handleStartProject = async () => {
-    const uid = JSON.parse(localStorage?.getItem("user") ?? "{}").uid;
-
+    if (!localUser) return;
+    const { uid } = localUser;
     const user = await getDoc(doc(db, "userProfiles", uid));
 
     try {

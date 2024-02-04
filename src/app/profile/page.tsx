@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { db } from "@/lib/firebase";
 import { User } from "@/types/user";
 import { Project } from "@/types/project";
+import { useUser } from "@/store/useUser";
 const Profile = () => {
   const [enrolledProjects, setEnrolledProjects] = useState<Project[] | null>(
     null
@@ -14,10 +15,11 @@ const Profile = () => {
   const [createdProjects, setCreatedProjects] = useState<Project[] | null>(
     null
   );
+  const { user } = useUser();
 
   useEffect(() => {
     const getEnrolledProjects = async () => {
-      const user = JSON.parse(localStorage?.getItem("user") ?? "{}");
+      if (!user) return;
       const projectsRef = collection(db, "projects");
 
       const querySnapshot = await getDocs(projectsRef);
@@ -41,7 +43,7 @@ const Profile = () => {
       });
     };
     const getCreatedProjects = async () => {
-      const user = JSON.parse(localStorage?.getItem("user") ?? "{}");
+      if (!user) return;
       const projectsRef = collection(db, "projects");
 
       const querySnapshot = await getDocs(projectsRef);
