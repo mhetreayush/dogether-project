@@ -42,7 +42,7 @@ const CreateProfileModal = ({
       });
       setIsCreateProfileModalOpen(false);
       createProject
-        ? router.push("/createProject")
+        ? router.push("/create-project")
         : router.push(`/project?id=${projectId}`);
     } catch (err) {
       console.log(err);

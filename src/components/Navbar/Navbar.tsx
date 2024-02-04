@@ -25,7 +25,7 @@ const Navbar = () => {
     if (!res) {
       setIsCreateProfileModalOpen(true);
     } else {
-      router.push(`/createProject`);
+      router.push(`/create-project`);
     }
   };
   return (
