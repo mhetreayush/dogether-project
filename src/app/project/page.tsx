@@ -21,10 +21,9 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import { GroupChats } from "@/components/GroupChat";
-import { Project } from "@/types/project";
 import { useUser } from "@/store/useUser";
+import type { Project, ProjectId } from "@/types/project";
 
-type ProjectId = Project["projectId"];
 const Divider = () => {
   return <hr className="border-b border-gray-300 my-2" />;
 };

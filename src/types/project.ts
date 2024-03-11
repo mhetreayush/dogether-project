@@ -17,3 +17,5 @@ export type Project = {
   projectId: string;
   tags: string[];
 };
+
+export type ProjectId = Project["projectId"];
